@@ -43,31 +43,31 @@ def pixel(x, y, px):
     out = (0.0, 0.0, 0.0, 0.0)
 
     # Soft shadow on the surface below the box.
-    r = math.hypot((x - 0.5) / 0.40, (y - 0.835) / 0.05)
+    r = math.hypot((x - 0.5) / 0.40, (y - 0.855) / 0.05)
     if r < 1:
         out = over(out, (0.05, 0.08, 0.12), 0.32 * (1 - r) ** 1.6)
 
     # Seen from slightly above: the front of the case (darker) and, over it, the top (lighter).
-    front = rounded_box(x, y, 0.5, 0.555, 0.36, 0.245, 0.10)
+    front = rounded_box(x, y, 0.5, 0.53, 0.36, 0.27, 0.10)
     cover = clamp(0.5 - front / px)
     if cover > 0:
-        t = clamp((y - 0.31) / 0.49)
+        t = clamp((y - 0.26) / 0.54)
         out = over(out, mix((0.74, 0.77, 0.83), (0.50, 0.54, 0.62), t), cover)
 
-    top = rounded_box(x, y, 0.5, 0.43, 0.36, 0.19, 0.10)
+    top = rounded_box(x, y, 0.5, 0.37, 0.36, 0.18, 0.10)
     cover = clamp(0.5 - top / px)
     if cover > 0:
-        t = clamp((y - 0.24) / 0.38)
+        t = clamp((y - 0.19) / 0.36)
         body = mix((0.97, 0.98, 0.99), (0.83, 0.86, 0.91), t)
         rim = clamp(1 - abs(top + 0.010) / (px * 1.6))
         body = mix(body, (1.0, 1.0, 1.0), 0.7 * rim)
         out = over(out, body, cover)
         # A faint edge where the top meets the front.
         edge = clamp(1 - abs(top) / (px * 2.0))
-        out = over(out, (0.45, 0.50, 0.58), 0.25 * edge * (1 if y > 0.43 else 0))
+        out = over(out, (0.45, 0.50, 0.58), 0.25 * edge * (1 if y > 0.37 else 0))
 
     # Power light on the front, white, with a soft glow.
-    lx, ly = 0.74, 0.715
+    lx, ly = 0.74, 0.68
     dist = math.hypot(x - lx, y - ly)
     glow = clamp(1 - dist / 0.075) ** 2
     if glow > 0 and out[3] > 0.5:
