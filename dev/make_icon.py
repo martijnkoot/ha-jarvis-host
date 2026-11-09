@@ -43,38 +43,38 @@ def pixel(x, y, px):
     out = (0.0, 0.0, 0.0, 0.0)
 
     # Soft shadow on the surface below the box.
-    r = math.hypot((x - 0.5) / 0.40, (y - 0.80) / 0.05)
+    r = math.hypot((x - 0.5) / 0.40, (y - 0.835) / 0.05)
     if r < 1:
         out = over(out, (0.05, 0.08, 0.12), 0.32 * (1 - r) ** 1.6)
 
     # Seen from slightly above: the front of the case (darker) and, over it, the top (lighter).
-    front = rounded_box(x, y, 0.5, 0.545, 0.36, 0.215, 0.10)
+    front = rounded_box(x, y, 0.5, 0.555, 0.36, 0.245, 0.10)
     cover = clamp(0.5 - front / px)
     if cover > 0:
-        t = clamp((y - 0.33) / 0.43)
+        t = clamp((y - 0.31) / 0.49)
         out = over(out, mix((0.74, 0.77, 0.83), (0.50, 0.54, 0.62), t), cover)
 
-    top = rounded_box(x, y, 0.5, 0.45, 0.36, 0.19, 0.10)
+    top = rounded_box(x, y, 0.5, 0.43, 0.36, 0.19, 0.10)
     cover = clamp(0.5 - top / px)
     if cover > 0:
-        t = clamp((y - 0.26) / 0.38)
+        t = clamp((y - 0.24) / 0.38)
         body = mix((0.97, 0.98, 0.99), (0.83, 0.86, 0.91), t)
         rim = clamp(1 - abs(top + 0.010) / (px * 1.6))
         body = mix(body, (1.0, 1.0, 1.0), 0.7 * rim)
         out = over(out, body, cover)
         # A faint edge where the top meets the front.
         edge = clamp(1 - abs(top) / (px * 2.0))
-        out = over(out, (0.45, 0.50, 0.58), 0.25 * edge * (1 if y > 0.45 else 0))
+        out = over(out, (0.45, 0.50, 0.58), 0.25 * edge * (1 if y > 0.43 else 0))
 
-    # Status light on the front, with a soft glow: the "reporting" light.
-    lx, ly = 0.74, 0.695
+    # Power light on the front, white, with a soft glow.
+    lx, ly = 0.74, 0.715
     dist = math.hypot(x - lx, y - ly)
     glow = clamp(1 - dist / 0.075) ** 2
     if glow > 0 and out[3] > 0.5:
-        out = over(out, (0.30, 0.85, 0.45), 0.35 * glow)
+        out = over(out, (1.0, 1.0, 1.0), 0.40 * glow)
     led = clamp(0.5 - (dist - 0.026) / px)
     if led > 0:
-        out = over(out, mix((0.18, 0.74, 0.38), (0.55, 0.95, 0.65), clamp(1 - dist / 0.026)), led)
+        out = over(out, mix((0.88, 0.91, 0.95), (1.0, 1.0, 1.0), clamp(1 - dist / 0.026)), led)
 
     # Two small ports at the left of the front.
     for port_x in (0.265, 0.325):
