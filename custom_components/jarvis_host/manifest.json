@@ -1,0 +1,13 @@
+{
+  "domain": "jarvis_host",
+  "name": "Jarvis Host",
+  "codeowners": ["@martijnkoot"],
+  "config_flow": true,
+  "dependencies": ["webhook"],
+  "documentation": "https://github.com/martijnkoot/ha-jarvis-host",
+  "integration_type": "device",
+  "iot_class": "local_push",
+  "issue_tracker": "https://github.com/martijnkoot/ha-jarvis-host/issues",
+  "requirements": [],
+  "version": "0.1.0"
+}

@@ -1,0 +1,53 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Jarvis Host",
+        "description": "Adds the Mac that runs Home Assistant as a device. The Mac sends its own status; Home Assistant never connects to it.",
+        "data": {
+          "name": "Name",
+          "model": "Model (optional)"
+        },
+        "data_description": {
+          "name": "How the device is called, for example Mac mini.",
+          "model": "Leave empty to use the model the Mac reports."
+        }
+      },
+      "url": {
+        "title": "Webhook address",
+        "description": "Let the Mac post its report to this address:\n\n`{url}`\n\nThe address is secret: anyone on your network who knows it can send reports. If you reach Home Assistant through a proxy or another port, change the host and port to match. It is shown again later under Configure."
+      }
+    },
+    "abort": {
+      "already_configured": "This Mac is already set up."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Webhook address",
+        "description": "The Mac posts its report to:\n\n`{url}`\n\nIf you reach Home Assistant through a proxy or another port, change the host and port to match."
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "cpu": { "name": "CPU" },
+      "load": { "name": "Load" },
+      "memory_used": { "name": "Memory used" },
+      "disk_free": { "name": "Disk free" },
+      "disk_free_percent": { "name": "Disk free percentage" },
+      "pending_updates": { "name": "Pending updates" },
+      "last_boot": { "name": "Last boot" },
+      "last_report": { "name": "Last report" }
+    },
+    "binary_sensor": {
+      "reporting": { "name": "Reporting" },
+      "vm_running": { "name": "Home Assistant VM" },
+      "filevault": { "name": "FileVault" }
+    },
+    "update": {
+      "macos": { "name": "macOS" }
+    }
+  }
+}

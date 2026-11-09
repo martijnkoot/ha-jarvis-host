@@ -1,0 +1,53 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Jarvis Host",
+        "description": "Voegt de Mac waarop Home Assistant draait toe als apparaat. De Mac stuurt zelf zijn status; Home Assistant maakt nooit verbinding met de Mac.",
+        "data": {
+          "name": "Naam",
+          "model": "Model (optioneel)"
+        },
+        "data_description": {
+          "name": "Hoe het apparaat heet, bijvoorbeeld Mac mini.",
+          "model": "Laat leeg om het model te gebruiken dat de Mac zelf opgeeft."
+        }
+      },
+      "url": {
+        "title": "Webhook-adres",
+        "description": "Laat de Mac zijn rapport naar dit adres sturen:\n\n`{url}`\n\nHet adres is geheim: iedereen op je netwerk die het kent kan rapporten sturen. Bereik je Home Assistant via een proxy of een andere poort, pas dan host en poort aan. Het adres is later opnieuw te zien onder Configureren."
+      }
+    },
+    "abort": {
+      "already_configured": "Deze Mac is al ingesteld."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Webhook-adres",
+        "description": "De Mac stuurt zijn rapport naar:\n\n`{url}`\n\nBereik je Home Assistant via een proxy of een andere poort, pas dan host en poort aan."
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "cpu": { "name": "CPU" },
+      "load": { "name": "Belasting" },
+      "memory_used": { "name": "Geheugen gebruikt" },
+      "disk_free": { "name": "Schijf vrij" },
+      "disk_free_percent": { "name": "Schijf vrij (percentage)" },
+      "pending_updates": { "name": "Openstaande updates" },
+      "last_boot": { "name": "Laatste start" },
+      "last_report": { "name": "Laatste rapport" }
+    },
+    "binary_sensor": {
+      "reporting": { "name": "Rapporteert" },
+      "vm_running": { "name": "Home Assistant-VM" },
+      "filevault": { "name": "FileVault" }
+    },
+    "update": {
+      "macos": { "name": "macOS" }
+    }
+  }
+}
