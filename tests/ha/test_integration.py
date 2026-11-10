@@ -88,6 +88,24 @@ async def test_report_fills_device_and_entities(hass: HomeAssistant, hass_client
     assert len(entities) == 12
 
 
+async def test_the_device_is_found_without_the_deprecated_registry_lookup(
+    hass: HomeAssistant, hass_client_no_auth
+) -> None:
+    """Newer Home Assistant versions log a deprecation warning for async_get_device(identifiers=...)."""
+    from unittest.mock import patch
+
+    entry = await _setup(hass)
+    client = await hass_client_no_auth()
+    with patch.object(
+        dr.DeviceRegistry, "async_get_device", side_effect=AssertionError("deprecated lookup used")
+    ):
+        assert (await client.post(URL, json=SAMPLE)).status == 200
+        await hass.async_block_till_done()
+    device = dr.async_get(hass).async_get_device(identifiers={(DOMAIN, entry.entry_id)})
+    assert device.sw_version == "27.2"
+    assert device.model == "Mac16,10"
+
+
 async def test_bad_reports_are_rejected(hass: HomeAssistant, hass_client_no_auth) -> None:
     await _setup(hass)
     client = await hass_client_no_auth()

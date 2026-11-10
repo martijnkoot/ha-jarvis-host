@@ -76,9 +76,12 @@ class JarvisHostData:
 
     def _sync_device(self, report: HostReport) -> None:
         registry = dr.async_get(self.hass)
-        device = registry.async_get_device(identifiers={(DOMAIN, self.entry.entry_id)})
-        if device is None:
+        # Not async_get_device(identifiers=...): identifiers are no longer unique across config
+        # entries and newer Home Assistant versions deprecate that lookup. This entry has one device.
+        devices = dr.async_entries_for_config_entry(registry, self.entry.entry_id)
+        if not devices:
             return
+        device = devices[0]
         changes: dict[str, str] = {}
         if report.macos_version and device.sw_version != report.macos_version:
             changes["sw_version"] = report.macos_version
